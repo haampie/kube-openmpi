@@ -1,7 +1,7 @@
 ARG UBUNTU_BASED_BASE_IMAGE
 FROM $UBUNTU_BASED_BASE_IMAGE
 
-MAINTAINER Shingo OMURA <https://github.com/everpeace>
+MAINTAINER Harmen Stoppels <https://github.com/haampie>
 
 ARG OPENMPI_VERSION
 
@@ -27,7 +27,7 @@ RUN cd /tmp && \
   if [ "$WITH_CUDA" = "true" ]; then export WITH_CUDA_OPT="--with-cuda"; else export WITH_CUDA_OPT=""; fi && \
   echo "WITH_CUDA_OPT=$WITH_CUDA_OPT" && \
   ./configure --prefix=/usr $WITH_CUDA_OPT && \
-  make -j2 && \
+  make -j$(nproc) && \
   make install && \
   rm -r /tmp/openmpi-$OPENMPI_VERSION
 
